@@ -1,0 +1,27 @@
+# -*- makefile -*- for the C-level run-time support for SBCL
+
+# This software is part of the SBCL system. See the README file for
+# more information.
+#
+# This software is derived from the CMU CL system, which was
+# written at Carnegie Mellon University and released into the
+# public domain. The software is in the public domain and is
+# provided with absolutely no warranty. See the COPYING and CREDITS
+# files for more information.
+
+LINKFLAGS += -Wl,-z,wxneeded
+OS_LIBS += -lutil
+
+ifdef LISP_FEATURE_SB_THREAD
+CFLAGS += -pthread
+OS_LIBS += -pthread
+endif
+
+ifeq ($(DISABLE_PIE),yes)
+ifneq ($(shell $(CC) -dM -E - < /dev/null 2>/dev/null | grep -e '__clang__'),)
+CFLAGS += -fno-pie
+LINKFLAGS += -nopie
+LDFLAGS += -nopie
+__LDFLAGS__ += -nopie
+endif
+endif

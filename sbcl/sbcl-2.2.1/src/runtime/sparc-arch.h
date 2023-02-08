@@ -1,0 +1,7 @@
+#ifndef _SPARC_ARCH_H
+#define _SPARC_ARCH_H
+
+#define ARCH_HAS_NPC_REGISTER
+#define ALIEN_STACK_GROWS_DOWNWARD
+
+#endif /* _SPARC_ARCH_H */

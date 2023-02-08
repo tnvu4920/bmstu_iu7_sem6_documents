@@ -1,0 +1,28 @@
+CC=gcc
+CFLAGS = -m64 -g -O2 -Wall -std=gnu89 -D__EXTENSIONS__ -DSVR4 -D_REENTRANT -fno-omit-frame-pointer
+LINKFLAGS = -m64 -g
+ASFLAGS = -m64 -Wall
+GREP = ggrep
+
+#CC=/opt/SunStudioExpress/bin/cc
+#CFLAGS = -xarch=generic64 -g -O2 -Wall -D__EXTENSIONS__ -DSVR4 -D_REENTRANT -fno-omit-frame-pointer
+#ASFLAGS = -xarch=generic64 -Wall
+
+ASSEM_SRC = x86-64-assem.S
+ARCH_SRC = x86-64-arch.c
+
+OS_SRC = sunos-os.c x86-64-sunos-os.c
+OS_LIBS= -ldl -lsocket -lnsl -lrt
+ifdef LISP_FEATURE_SB_CORE_COMPRESSION
+  OS_LIBS += -lz
+endif
+
+ifdef LISP_FEATURE_IMMOBILE_SPACE
+  GC_SRC = fullcgc.c gencgc.c traceroot.c immobile-space.c elf.c
+else
+  GC_SRC = fullcgc.c gencgc.c traceroot.c
+endif
+
+# Nothing to do for after-grovel-headers.
+.PHONY: after-grovel-headers
+after-grovel-headers:
